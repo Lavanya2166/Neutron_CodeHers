@@ -6,6 +6,7 @@ from backend.routes import auth, genai_tools, chat, themes, voice, personal_bran
 from backend.routes import themes
 import os
 from dotenv import load_dotenv
+from backend.routes import summarizer
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 app = FastAPI(title="GenAI-as-a-Service Platform")
@@ -30,6 +31,7 @@ app.add_middleware(
 # app.include_router(personal_brand.router, prefix="/brand")
 # app.include_router(chat.router)
 app.include_router(genai_tools.router)
+app.include_router(summarizer.router, prefix="/genai-tools")
 
 @app.get("/")
 def root():

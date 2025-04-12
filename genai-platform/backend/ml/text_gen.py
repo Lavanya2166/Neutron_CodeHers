@@ -6,10 +6,6 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from pathlib import Path
 
-import os
-from dotenv import load_dotenv
-from pathlib import Path
-
 # Correct path to .env file in the 'neutron_codehers/genai-platform' directory
 env_path = Path(__file__).resolve().parents[2] / ".env"  # Goes up 2 levels to reach 'genai-platform'
 load_dotenv(dotenv_path=env_path)
@@ -42,18 +38,19 @@ class VibeClassifier:
             "a sunset", "a mountain", "a flower", "a cityscape", "a painting", "a fashion model"
         ]
 
-    def classify(self, image_path, mode="vibe"):
-        image = Image.open(image_path).convert("RGB")
-        prompts = self.vibes if mode == "vibe" else self.objects
+    # In VibeClassifier class
+def classify(self, image, mode="vibe"):
+    image = image.convert("RGB")  # Ensure the image is in RGB mode
+    prompts = self.vibes if mode == "vibe" else self.objects
 
-        inputs = self.processor(text=prompts, images=image, return_tensors="pt", padding=True).to(self.device)
-        outputs = self.model(**inputs)
-        probs = outputs.logits_per_image.softmax(dim=1)
+    inputs = self.processor(text=prompts, images=image, return_tensors="pt", padding=True).to(self.device)
+    outputs = self.model(**inputs)
+    probs = outputs.logits_per_image.softmax(dim=1)
 
-        top_idx = probs.argmax().item()
-        label = prompts[top_idx].replace("a ", "").strip().capitalize()
+    top_idx = probs.argmax().item()
+    label = prompts[top_idx].replace("a ", "").strip().capitalize()
 
-        return label, probs[0][top_idx].item()
+    return label, probs[0][top_idx].item()
 
 # --- Gemini Blog Generator ---
 class GeminiCaptionGenerator:
@@ -84,7 +81,7 @@ if __name__ == "__main__":
         print(f" Image not found at {image_path}")
     else:
         classifier = VibeClassifier()
-        caption_gen = GeminiCaptionGenerator(api_key)
+        caption_gen = GeminiCaptionGenerator(api_key=api_key)
 
         # Run classification
         vibe, vibe_conf = classifier.classify(image_path, mode="vibe")

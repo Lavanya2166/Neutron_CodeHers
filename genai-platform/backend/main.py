@@ -7,6 +7,7 @@ from backend.routes import themes
 import os
 from dotenv import load_dotenv
 from backend.routes import summarizer
+from backend.routes import product_success_text_route
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 app = FastAPI(title="GenAI-as-a-Service Platform")
@@ -30,9 +31,10 @@ app.add_middleware(
 # app.include_router(voice.router, prefix="/voice")
 # app.include_router(personal_brand.router, prefix="/brand")
 # app.include_router(chat.router)
-app.include_router(genai_tools.router)
-app.include_router(summarizer.router, prefix="/genai-tools")
-
+app.include_router(genai_tools.router, prefix="/genai-tools")
+app.include_router(genai_tools.router, prefix="/genai-tools")
+app.include_router(summarizer.router, prefix="/genai-tools")  # Summarizer tools
+app.include_router(product_success_text_route.router, prefix="/genai-tools")  # Text predict
 @app.get("/")
 def root():
     return {"message": "Welcome to GenAI platform 🚀"}

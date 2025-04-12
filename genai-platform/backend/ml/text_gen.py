@@ -6,20 +6,27 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from pathlib import Path
 
-# ✅ Load environment variables from the correct .env path
-env_path = Path(__file__).resolve().parent / ".env"
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Correct path to .env file in the 'neutron_codehers/genai-platform' directory
+env_path = Path(__file__).resolve().parents[2] / ".env"  # Goes up 2 levels to reach 'genai-platform'
 load_dotenv(dotenv_path=env_path)
 
-# ✅ Get the correct API key from .env
+# Verify that the GOOGLE_API_KEY is loaded correctly
 api_key = os.getenv("GOOGLE_API_KEY")
-
 if not api_key:
-    print(" GOOGLE_API_KEY not found in .env")
-    exit()
+    raise ValueError("GOOGLE_API_KEY not found in .env file")
 else:
-    print(" GOOGLE API Key loaded successfully")
+    print("GOOGLE_API_KEY Key loaded")
+
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
+
 
 # --- Vibe Classifier ---
+
 class VibeClassifier:
     def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -48,29 +55,30 @@ class VibeClassifier:
 
         return label, probs[0][top_idx].item()
 
-# --- Gemini Caption Generator ---
+# --- Gemini Blog Generator ---
 class GeminiCaptionGenerator:
     def __init__(self, api_key):
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel(model_name="models/gemini-1.5-pro-latest")
 
-    def generate_caption(self, vibe, obj, theme, tone):
+    def generate_blog(self, vibe, obj, theme, tone, word_count=150):
         prompt = (
-            f"Generate a short, aesthetic Instagram caption for a photo that has a {vibe.lower()} vibe "
-            f"and contains {obj.lower()}. The theme is {theme.lower()} and the tone is {tone.lower()}. "
-            f"Make it inspiring, catchy, and suitable for social media, without emojis or special characters."
+            f"You are a social media content creator. Based on an image that gives off a {vibe.lower()} vibe and "
+            f"features {obj.lower()}, write a blog-style paragraph (around {word_count} words). "
+            f"The theme is {theme.lower()} and the tone should feel {tone.lower()}. "
+            f"Make the writing feel natural and human—avoid robotic phrasing. Use vivid descriptions, sensory details, and a conversational style. "
+            f"Include subtle emotions, personal reflections, or observations. Avoid hashtags, emojis, or bullet points. This should feel like a slice of real life."
         )
         try:
             response = self.model.generate_content(prompt)
             return response.text.strip()
         except Exception as e:
-            print(f" Error generating caption: {e}")
-            return "Error generating caption."
+            print(f" Error generating blog text: {e}")
+            return "Error generating blog post."
 
 # --- Main Execution ---
 if __name__ == "__main__":
-    # 🔁 Update this path to point to your image
-    image_path = "C:\\Users\\dell\\Downloads\\WhatsApp Image 2025-04-12 at 19.16.47_9b3e422f.jpg"
+    image_path = "C:\\Users\\garga\\OneDrive\\Desktop\\cc.jpg"  # Update this path as needed
 
     if not os.path.exists(image_path):
         print(f" Image not found at {image_path}")
@@ -82,18 +90,24 @@ if __name__ == "__main__":
         vibe, vibe_conf = classifier.classify(image_path, mode="vibe")
         obj, obj_conf = classifier.classify(image_path, mode="object")
 
-        # Customize theme and tone
-        theme = "Minimalist"
-        tone = "Friendly"
+        # Set default theme and tone
+        theme = "Mindfulness"
+        tone = "Poetic"
 
-        # Generate caption
-        caption = caption_gen.generate_caption(vibe, obj, theme, tone)
+        # Get user input for word count
+        try:
+            word_count = int(input("How many words would you like for the blog post? "))
+        except ValueError:
+            print("Invalid input. Using default word count of 150.")
+            word_count = 600
+
+        # Generate blog post
+        blog_post = caption_gen.generate_blog(vibe, obj, theme, tone, word_count)
 
         # Output
-        print("\n--- Image Classification ---")
-        print(f" Vibe: {vibe} ({vibe_conf:.2f})")
+        print(" Image Classification Results:")
         print(f" Object: {obj} ({obj_conf:.2f})")
         print(f" Theme: {theme}")
         print(f" Tone: {tone}")
-        print("\n--- Generated Instagram Caption ---\n")
-        print(caption)
+        print(f" Blog Post ({word_count} words):\n")
+        print(blog_post)

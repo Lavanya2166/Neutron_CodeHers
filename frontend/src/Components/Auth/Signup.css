@@ -1,58 +1,86 @@
 .auth-container {
     max-width: 400px;
     margin: 80px auto;
-    padding: 30px;
-    border-radius: 12px;
-    background: #ffffff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    background: #f9f9f9;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     text-align: center;
     font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .auth-container h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-  }
-  
-  .auth-container h2 {
-    font-size: 22px;
+}
+
+.auth-container h1 {
+    font-size: 34px;
     margin-bottom: 20px;
     color: #333;
-  }
-  
-  form input {
+    font-weight: 750;
+}
+
+.auth-container h2 {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-  }
-  
-  form button {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #555;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #4a90e2;
+    background-color: #e6f4fe;
+    outline: none;
+}
+
+form button {
     width: 100%;
-    padding: 12px;
+    padding: 15px;
     background-color: #4a90e2;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  form button:hover {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+form button:hover {
     background-color: #357abd;
-  }
-  
-  .bottom-link {
-    margin-top: 16px;
+    transform: translateY(-2px);
+}
+
+form button:active {
+    transform: translateY(0);
+}
+
+.bottom-link {
+    margin-top: 20px;
     font-size: 14px;
-  }
-  
-  .bottom-link a {
+    color: #555;
+}
+
+.bottom-link a {
     color: #4a90e2;
     text-decoration: none;
     font-weight: bold;
-  }
-  
+    transition: color 0.3s ease;
+}
+
+.bottom-link a:hover {
+    color: #357abd;
+}

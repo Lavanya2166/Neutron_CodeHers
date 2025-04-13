@@ -34,7 +34,16 @@ const Signup = () => {
 
   return (
     <div className="auth-container">
-      <h1>Welcome to ABCD</h1>
+      <h1>
+  Welcome to <span style={{ 
+    color: '#007bff', 
+    fontWeight: 'bold', 
+    fontStyle: 'italic', 
+    fontSize: '1.1em', 
+    fontFamily: 'Georgia, serif' 
+  }}>PROMPTLY</span>
+</h1>
+
       <h2>Sign Up</h2>
       <form onSubmit={handleSignup}>
         <input

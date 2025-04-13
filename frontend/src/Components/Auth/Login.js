@@ -1,8 +1,9 @@
 // login.js
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";  // Firebase configuration file
-import { useNavigate } from "react-router-dom";  // To navigate after successful login
+import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
+import './Login.css'; // Make sure to import the CSS
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,44 +17,41 @@ const Login = () => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Successfully logged in
         const user = userCredential.user;
         console.log("User logged in: ", user);
-        navigate("/dashboard");  // Redirect to dashboard after login
+        navigate("/dashboard");
       })
       .catch((error) => {
-        // Handle login errors
-        const errorMessage = error.message;
-        setError(errorMessage);
-        console.error("Login error: ", errorMessage);
+        setError(error.message);
+        console.error("Login error: ", error.message);
       });
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="auth-container">
+      <h1>Welcome Back</h1>
+      <h2>Login to Your Account</h2>
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p>{error}</p>}
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">Login</button>
       </form>
+      <div className="bottom-link">
+        Don't have an account? <a href="/signup">Sign Up</a>
+      </div>
     </div>
   );
 };

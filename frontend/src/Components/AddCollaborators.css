@@ -1,0 +1,47 @@
+.auth-container .add-button {
+    padding: 8px;
+    background-color: #ef2513;  /* Darker red */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 20px;  /* Increased space between buttons */
+}
+.auth-container .add-button:hover{
+    background-color:#9a1307e4;
+}
+
+.auth-container .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;  /* Space below the submit button */
+}
+
+.auth-container .submit-button:hover {
+    background-color: hsl(210, 56%, 47%);
+}
+
+.auth-container .skip-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #b6a4a4b8;
+    color: hsl(209, 100%, 11%);
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.auth-container .skip-button:hover {
+    background-color: #e0e0e0;
+}

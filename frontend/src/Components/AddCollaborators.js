@@ -3,11 +3,13 @@ import { auth } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import './AddCollaborators.css';  // Import the CSS file
 
 const AddCollaborators = () => {
   const [adminId, setAdminId] = useState('');
   const [collaborators, setCollaborators] = useState([{ email: '', password: '' }]);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
@@ -16,9 +18,9 @@ const AddCollaborators = () => {
       setAdminId(user.uid);
     } else {
       alert('You must be logged in to add collaborators.');
-      window.location.href = 'login.html'; // use static redirect for non-logged-in users
+      navigate('/login');  // Redirect to login page if user isn't logged in
     }
-  }, []);
+  }, [navigate]);
 
   const handleChange = (i, field, value) => {
     const updated = [...collaborators];
@@ -27,7 +29,13 @@ const AddCollaborators = () => {
   };
 
   const handleAddField = () => {
-    setCollaborators([...collaborators, { email: '', password: '' }]);
+    const lastCollaborator = collaborators[collaborators.length - 1];
+    if (lastCollaborator.email && lastCollaborator.password) {
+      setCollaborators([...collaborators, { email: '', password: '' }]);
+      setErrorMessage(''); // Clear any previous error message
+    } else {
+      setErrorMessage('Please fill in the current collaborator fields before adding another.');
+    }
   };
 
   const handleSubmit = async () => {
@@ -74,9 +82,9 @@ const AddCollaborators = () => {
           collaborators: created,
         });
         alert('Collaborators added and saved!');
-        
+
         // Navigate to the ThemeSelector page instead of static redirect
-        navigate('/theme-selector'); // Programmatically navigate to the ThemeSelector page
+        navigate("/theme-selector"); // Programmatically navigate to the ThemeSelector page
       } catch (error) {
         console.error('Error adding collaborators to Firestore:', error);
         alert('Error adding collaborators to Firestore.');
@@ -87,34 +95,53 @@ const AddCollaborators = () => {
   };
 
   const handleSkip = () => {
-    // Skip collaborators and navigate to the ThemeSelector page
-    navigate('/theme-selector');
+    // Handle skip logic here
+    navigate("/theme-selector") // Redirect to theme selector page when skipped
   };
 
   return (
-    <div>
-      <h2>Add Collaborators</h2>
-      {collaborators.map((c, i) => (
-        <div key={i}>
+    <div className="auth-container">
+      <h1>Add Collaborators</h1>
+      
+      {collaborators.map((collab, index) => (
+        <div key={index} className="collaborator-field">
           <input
-            placeholder="Email"
-            value={c.email}
-            onChange={(e) => handleChange(i, 'email', e.target.value)}
+            type="email"
+            placeholder="Collaborator Email"
+            value={collab.email}
+            onChange={(e) => handleChange(index, 'email', e.target.value)}
+            required
           />
           <input
-            placeholder="Password"
             type="password"
-            value={c.password}
-            onChange={(e) => handleChange(i, 'password', e.target.value)}
+            placeholder="Collaborator Password"
+            value={collab.password}
+            onChange={(e) => handleChange(index, 'password', e.target.value)}
+            required
           />
         </div>
       ))}
-      <button onClick={handleAddField}>+ Add More</button>
+
+      {/* Display error message when trying to add collaborator without filling the previous one */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+      {/* Add Collaborator button is only enabled when current fields are filled */}
+      <button
+        className="add-button"
+        onClick={handleAddField}
+        disabled={!collaborators[collaborators.length - 1].email || !collaborators[collaborators.length - 1].password}
+      >
+        Add Collaborator
+      </button>
+
+      {/* Submit Button */}
       <button onClick={handleSubmit} disabled={loading}>
         {loading ? 'Submitting...' : 'Submit'}
       </button>
-      <button onClick={handleSkip} style={{ marginLeft: '10px' }}>
-        Skip for now
+
+      {/* Skip Button */}
+      <button className="skip-button" onClick={handleSkip}>
+        Skip for Now
       </button>
     </div>
   );

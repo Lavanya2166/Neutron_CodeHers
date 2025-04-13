@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button id="sidebar-toggle" class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="app-title">AI Tools</span>
+        </div>
+        <div class="nav-right">
+            <div class="theme-selector">
+                <button id="theme-toggle" class="theme-toggle">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+            <button class="profile-button">
+                <img src="https://via.placeholder.com/36" alt="Profile">
+            </button>
+            <div class="profile-dropdown">
+                <div class="profile-info">
+                    <span class="username">John Doe</span>
+                    <span class="role">Pro User</span>
+                </div>
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button class="new-chat-btn">
+                    <i class="fas fa-plus"></i>
+                    New Chat
+                </button>
+            </div>
+            <div class="chat-history">
+                <!-- Chat history items will be dynamically added here -->
+            </div>
+        </aside>
+
+        <!-- Workspace -->
+        <main class="workspace">
+            <!-- Tool Tabs -->
+            <div class="tool-tabs">
+                <button class="tool-tab active" data-tool="text">
+                    <i class="fas fa-font"></i>
+                    Text
+                </button>
+                <button class="tool-tab" data-tool="image">
+                    <i class="fas fa-image"></i>
+                    Image
+                </button>
+                <button class="tool-tab" data-tool="code">
+                    <i class="fas fa-code"></i>
+                    Code
+                </button>
+                <button class="tool-tab" data-tool="captions">
+                    <i class="fas fa-closed-captioning"></i>
+                    Captions
+                </button>
+                <button class="tool-tab" data-tool="content">
+                    <i class="fas fa-pen-fancy"></i>
+                    Content
+                </button>
+                <button class="tool-tab" data-tool="social">
+                    <i class="fas fa-share-alt"></i>
+                    Social
+                </button>
+                <button class="tool-tab" data-tool="brand">
+                    <i class="fas fa-copyright"></i>
+                    Brand
+                </button>
+                <button class="tool-tab" data-tool="voice">
+                    <i class="fas fa-microphone"></i>
+                    Voice
+                </button>
+            </div>
+
+            <!-- Tool Panels -->
+            <!-- Text Tool Panel -->
+            <div id="text-tool" class="tool-panel">
+                <div class="input-area">
+                    <textarea placeholder="Enter your text here..."></textarea>
+                    <button class="submit-btn">Process Text</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Output</h3>
+                        <div class="output-actions">
+                            <button class="action-btn" title="Copy">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="action-btn" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-content"></div>
+                </div>
+            </div>
+
+            <!-- Image Tool Panel -->
+            <div id="image-tool" class="tool-panel">
+                <div class="input-area">
+                    <div class="upload-area">
+                        <label>
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop images or click to upload</p>
+                            <span class="supported-formats">Supported formats: JPG, PNG, GIF</span>
+                            <input type="file" accept="image/*" multiple style="display: none;">
+                        </label>
+                    </div>
+                    <div id="image-preview"></div>
+                    <button class="submit-btn" disabled>Process Images</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Generated Images</h3>
+                        <div class="output-actions">
+                            <button class="action-btn" title="Download All">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-content"></div>
+                </div>
+            </div>
+
+            <!-- Code Tool Panel -->
+            <div id="code-tool" class="tool-panel">
+                <div class="input-area">
+                    <select class="language-select">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="cpp">C++</option>
+                    </select>
+                    <textarea class="code-input" placeholder="Enter your code here..."></textarea>
+                    <button class="submit-btn">Process Code</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Output</h3>
+                        <div class="output-actions">
+                            <button class="action-btn" title="Copy">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-content"></div>
+                </div>
+            </div>
+
+            <!-- Captions Tool Panel -->
+            <div id="captions-tool" class="tool-panel">
+                <div class="input-area">
+                    <div class="upload-area">
+                        <label>
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Upload image for Instagram caption</p>
+                            <span class="supported-formats">Supported format: JPG</span>
+                            <input type="file" accept="image/jpeg" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="options-area">
+                        <textarea placeholder="Enter your text here to describe your image and the type of caption you want..."></textarea>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked> Include hashtags
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Generate multiple variations
+                            </label>
+                        </div>
+                    </div>
+                    <div id="media-preview"></div>
+                    <button class="submit-btn" disabled>Generate Instagram Caption</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Generated Captions</h3>
+                        <div class="output-actions">
+                            <button class="action-btn" title="Copy">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-content">
+                        <div class="captions-preview">
+                            <div class="preview-image"></div>
+                            <div class="captions-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other tool panels (Content, Social, Brand, Voice) -->
+            <!-- Content Tool Panel -->
+            <div id="content-tool" class="tool-panel">
+                <div class="input-area">
+                    <select class="content-select">
+                        <option value="blog">Blog Post</option>
+                        <option value="product">Product Description</option>
+                        <option value="bio">Professional Bio</option>
+                        <option value="caption">Social Media Caption</option>
+                    </select>
+                    <select class="tone-select">
+                        <option value="professional">Professional</option>
+                        <option value="casual">Casual</option>
+                        <option value="friendly">Friendly</option>
+                        <option value="formal">Formal</option>
+                    </select>
+                    <input type="number" class="word-count" min="100" max="1000" value="300" placeholder="Word count">
+                    <textarea placeholder="Enter your topic or keywords..."></textarea>
+                    <button class="submit-btn">Generate Content</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Generated Content</h3>
+                        <div class="output-actions">
+                            <button class="action-btn" title="Copy">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="action-btn" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="output-content"></div>
+                </div>
+            </div>
+
+            <!-- Social Tool Panel -->
+            <div id="social-tool" class="tool-panel">
+                <div class="input-area">
+                    <select class="platform-select">
+                        <option value="instagram">Instagram</option>
+                        <option value="twitter">Twitter</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="facebook">Facebook</option>
+                    </select>
+                    <textarea placeholder="Enter your post content..."></textarea>
+                    <button class="submit-btn">Generate Social Content</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Generated Content</h3>
+                    </div>
+                    <div class="hashtag-cloud"></div>
+                    <div class="caption-variants"></div>
+                </div>
+            </div>
+
+            <!-- Brand Tool Panel -->
+            <div id="brand-tool" class="tool-panel">
+                <div class="input-area">
+                    <input type="text" class="brand-input" placeholder="Enter your brand name">
+                    <textarea class="brand-textarea" placeholder="Describe your brand..."></textarea>
+                    <select class="industry-select">
+                        <option value="tech">Technology</option>
+                        <option value="retail">Retail</option>
+                        <option value="health">Healthcare</option>
+                        <option value="finance">Finance</option>
+                    </select>
+                    <button class="submit-btn">Generate Brand Kit</button>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Brand Kit</h3>
+                    </div>
+                    <div class="bio-variants"></div>
+                    <div class="tone-guidelines"></div>
+                    <div class="keywords-cloud"></div>
+                </div>
+            </div>
+
+            <!-- Voice Tool Panel -->
+            <div id="voice-tool" class="tool-panel">
+                <div class="input-area">
+                    <div class="voice-controls">
+                        <button id="start-recording" class="voice-btn">
+                            <i class="fas fa-microphone"></i>
+                            Start Recording
+                        </button>
+                        <button id="stop-recording" class="voice-btn" disabled>
+                            <i class="fas fa-stop"></i>
+                            Stop Recording
+                        </button>
+                    </div>
+                    <p id="voice-status">Click 'Start Recording' to begin</p>
+                </div>
+                <div class="output-area">
+                    <div class="output-header">
+                        <h3>Voice Analysis</h3>
+                    </div>
+                    <div class="voice-results"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

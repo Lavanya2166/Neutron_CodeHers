@@ -19,7 +19,8 @@ const Login = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("User logged in: ", user);
-        navigate("/dashboard");
+        // Navigate to ThemeSelector after successful login
+        navigate("/theme-selector");
       })
       .catch((error) => {
         setError(error.message);

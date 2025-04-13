@@ -2,8 +2,8 @@
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
-
-load_dotenv()
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 MONGO_URL = os.getenv("MONGO_URL")
 client = MongoClient(MONGO_URL)
@@ -19,3 +19,5 @@ async def get_tenant_collection(tenant_id: str, collection_name: str):
 def get_chat_collection():
     return db["chat_messages"]
 
+def get_database():
+    return db

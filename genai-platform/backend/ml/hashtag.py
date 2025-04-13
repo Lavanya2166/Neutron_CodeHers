@@ -5,6 +5,9 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 # Correct path to .env file in the 'neutron_codehers/genai-platform' directory
 env_path = Path(__file__).resolve().parents[2] / ".env"  # Goes up 2 levels to reach 'genai-platform'
@@ -22,7 +25,6 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 
 
 # --- Vibe Classifier ---
-
 class VibeClassifier:
     def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -38,73 +40,61 @@ class VibeClassifier:
             "a sunset", "a mountain", "a flower", "a cityscape", "a painting", "a fashion model"
         ]
 
-    # In VibeClassifier class
-def classify(self, image, mode="vibe"):
-    image = image.convert("RGB")  # Ensure the image is in RGB mode
-    prompts = self.vibes if mode == "vibe" else self.objects
+    def classify(self, image_path, mode="vibe"):
+        image = Image.open(image_path).convert("RGB")
+        prompts = self.vibes if mode == "vibe" else self.objects
 
-    inputs = self.processor(text=prompts, images=image, return_tensors="pt", padding=True).to(self.device)
-    outputs = self.model(**inputs)
-    probs = outputs.logits_per_image.softmax(dim=1)
+        inputs = self.processor(text=prompts, images=image, return_tensors="pt", padding=True).to(self.device)
+        outputs = self.model(**inputs)
+        probs = outputs.logits_per_image.softmax(dim=1)
 
-    top_idx = probs.argmax().item()
-    label = prompts[top_idx].replace("a ", "").strip().capitalize()
+        top_idx = probs.argmax().item()
+        label = prompts[top_idx].replace("a ", "").strip().capitalize()
 
-    return label, probs[0][top_idx].item()
+        return label, probs[0][top_idx].item()
 
-# --- Gemini Blog Generator ---
-class GeminiCaptionGenerator:
+# --- Gemini Hashtag Generator ---
+class GeminiHashtagGenerator:
     def __init__(self, api_key):
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel(model_name="models/gemini-1.5-pro-latest")
 
-    def generate_blog(self, vibe, obj, theme, tone, word_count=150):
+    def generate_hashtags(self, vibe, obj, theme, tone):
         prompt = (
-            f"You are a social media content creator. Based on an image that gives off a {vibe.lower()} vibe and "
-            f"features {obj.lower()}, write a blog-style paragraph (around {word_count} words). "
-            f"The theme is {theme.lower()} and the tone should feel {tone.lower()}. "
-            f"Make the writing feel natural and human—avoid robotic phrasing. Use vivid descriptions, sensory details, and a conversational style. "
-            f"Include subtle emotions, personal reflections, or observations. Avoid hashtags, emojis, or bullet points. This should feel like a slice of real life."
+            f"Generate 10 relevant, aesthetic Instagram hashtags (without # symbols) for a photo that has a {vibe.lower()} vibe, "
+            f"contains {obj.lower()}, and follows the theme of {theme.lower()} with a {tone.lower()} tone. "
+            f"Make them trendy, specific, and without spaces or emojis."
         )
         try:
             response = self.model.generate_content(prompt)
-            return response.text.strip()
+            return response.text.strip().splitlines()
         except Exception as e:
-            print(f" Error generating blog text: {e}")
-            return "Error generating blog post."
+            print(f" Error generating hashtags: {e}")
+            return ["#error_generating_hashtags"]
 
 # --- Main Execution ---
 if __name__ == "__main__":
-    image_path = "C:\\Users\\garga\\OneDrive\\Desktop\\cc.jpg"  # Update this path as needed
-
+    image_path = "C:\\Users\\garga\\OneDrive\\Desktop\\cc.jpg"
     if not os.path.exists(image_path):
         print(f" Image not found at {image_path}")
     else:
         classifier = VibeClassifier()
-        caption_gen = GeminiCaptionGenerator(api_key=api_key)
+        hashtag_gen = GeminiHashtagGenerator(api_key)
 
-        # Run classification
         vibe, vibe_conf = classifier.classify(image_path, mode="vibe")
         obj, obj_conf = classifier.classify(image_path, mode="object")
 
-        # Set default theme and tone
-        theme = "Mindfulness"
-        tone = "Poetic"
+        theme = "Minimalist"
+        tone = "Friendly"
 
-        # Get user input for word count
-        try:
-            word_count = int(input("How many words would you like for the blog post? "))
-        except ValueError:
-            print("Invalid input. Using default word count of 150.")
-            word_count = 600
+        hashtags = hashtag_gen.generate_hashtags(vibe, obj, theme, tone)
 
-        # Generate blog post
-        blog_post = caption_gen.generate_blog(vibe, obj, theme, tone, word_count)
-
-        # Output
-        print(" Image Classification Results:")
+        print("\n--- Image Classification ---")
+        print(f" Vibe: {vibe} ({vibe_conf:.2f})")
         print(f" Object: {obj} ({obj_conf:.2f})")
         print(f" Theme: {theme}")
         print(f" Tone: {tone}")
-        print(f" Blog Post ({word_count} words):\n")
-        print(blog_post)
+
+        print("\n--- Suggested Hashtags ---\n")
+        for tag in hashtags:
+            print(f"#{tag.strip()}")

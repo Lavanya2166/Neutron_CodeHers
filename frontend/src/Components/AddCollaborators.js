@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { auth } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const AddCollaborators = () => {
   const [adminId, setAdminId] = useState('');
   const [collaborators, setCollaborators] = useState([{ email: '', password: '' }]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -14,7 +16,7 @@ const AddCollaborators = () => {
       setAdminId(user.uid);
     } else {
       alert('You must be logged in to add collaborators.');
-      window.location.href = 'login.html'; // use static redirect
+      window.location.href = 'login.html'; // use static redirect for non-logged-in users
     }
   }, []);
 
@@ -72,7 +74,9 @@ const AddCollaborators = () => {
           collaborators: created,
         });
         alert('Collaborators added and saved!');
-        window.location.href = 'themes.html'; // redirect to themes.html
+        
+        // Navigate to the ThemeSelector page instead of static redirect
+        navigate('/theme-selector'); // Programmatically navigate to the ThemeSelector page
       } catch (error) {
         console.error('Error adding collaborators to Firestore:', error);
         alert('Error adding collaborators to Firestore.');
@@ -83,7 +87,8 @@ const AddCollaborators = () => {
   };
 
   const handleSkip = () => {
-    window.location.href = 'themes.html'; // skip collaborators
+    // Skip collaborators and navigate to the ThemeSelector page
+    navigate('/theme-selector');
   };
 
   return (

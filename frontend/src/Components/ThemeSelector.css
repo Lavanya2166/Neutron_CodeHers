@@ -1,0 +1,588 @@
+/* Theme Variables */
+:root {
+    /* General Theme - Light Mode */
+    --general-primary: #4a90e2;
+    --general-secondary: #2c3e50;
+    --general-accent: #e74c3c;
+    --general-background: #f5f7fa;
+    --general-text: #333333;
+    --general-nav: #ffffff;
+    --general-card: #ffffff;
+    --general-border: #e5e7eb;
+    --general-hover: #f3f4f6;
+    --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+    /* General Theme - Dark Mode */
+    --general-dark-primary: #4a90e2;
+    --general-dark-secondary: #1a1a1a;
+    --general-dark-accent: #e74c3c;
+    --general-dark-background: #1a1a1a;
+    --general-dark-text: #ffffff;
+    --general-dark-nav: #2c3e50;
+    --general-dark-card: #2d3748;
+    --general-dark-border: #4a5568;
+    --general-dark-hover: #374151;
+
+    /* Bakery Theme */
+    --bakery-primary: #ff9a8b;
+    --bakery-secondary: #ff6b6b;
+    --bakery-accent: #ffd93d;
+    --bakery-background: #fff5f5;
+    --bakery-text: #4a4a4a;
+    --bakery-nav: #2c1810;
+
+    /* Tech Theme */
+    --tech-primary: #2563eb;
+    --tech-secondary: #1e40af;
+    --tech-accent: #22d3ee;
+    --tech-background: #0f172a;
+    --tech-text: #e2e8f0;
+    --tech-nav: #1e293b;
+    --tech-card: #1e293b;
+    --tech-border: #334155;
+    --tech-hover: #3b82f6;
+
+    /* Fashion Theme */
+    --fashion-primary: #ff758c;
+    --fashion-secondary: #ff7eb3;
+    --fashion-accent: #ffd3e1;
+    --fashion-background: #fff0f3;
+    --fashion-text: #2c2c2c;
+    --fashion-nav: #2d1922;
+
+    /* Wellness Theme */
+    --wellness-primary: #7fccb6;
+    --wellness-secondary: #74b49b;
+    --wellness-accent: #a7d7c5;
+    --wellness-background: #f4f9f7;
+    --wellness-text: #3c4c45;
+    --wellness-nav: #2a4238;
+
+    /* Minimalist Theme */
+    --minimalist-primary: #18181b;
+    --minimalist-secondary: #27272a;
+    --minimalist-accent: #a1a1aa;
+    --minimalist-background: #fafafa;
+    --minimalist-text: #27272a;
+    --minimalist-nav: #f4f4f5;
+    --minimalist-nav-text: #18181b;
+    --minimalist-card: #ffffff;
+    --minimalist-border: #e4e4e7;
+    --minimalist-hover: #3f3f46;
+    --minimalist-button: #18181b;
+    --minimalist-button-hover: #3f3f46;
+    --minimalist-sidebar: #f4f4f5;
+    --minimalist-sidebar-hover: #e4e4e7;
+
+    /* Creative Theme */
+    --creative-primary: #ff3366;
+    --creative-secondary: #9933ff;
+    --creative-accent: #33ccff;
+    --creative-background: #fafafa;
+    --creative-text: #2c2c2c;
+    --creative-nav: #1a0f2e;
+}
+
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Default styles (General Theme - Light Mode) */
+body:not([class*="theme-"]), 
+body.theme-general {
+    --primary-color: var(--general-primary);
+    --secondary-color: var(--general-secondary);
+    --accent-color: var(--general-accent);
+    --background-color: var(--general-background);
+    --text-color: var(--general-text);
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* General Theme - Light Mode Components */
+body:not([class*="theme-"]) .top-nav,
+body.theme-general .top-nav {
+    background: var(--general-nav);
+    color: var(--general-text);
+    border-bottom: 1px solid var(--general-border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+body:not([class*="theme-"]) .workspace-name,
+body.theme-general .workspace-name {
+    color: var(--general-primary);
+    font-weight: 600;
+}
+
+body:not([class*="theme-"]) .tool-panel,
+body.theme-general .tool-panel {
+    background: var(--general-card);
+    border: 1px solid var(--general-border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body:not([class*="theme-"]) .submit-btn,
+body.theme-general .submit-btn {
+    background: var(--general-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+body:not([class*="theme-"]) .submit-btn:hover:not(:disabled),
+body.theme-general .submit-btn:hover:not(:disabled) {
+    background: var(--general-accent);
+    transform: translateY(-1px);
+}
+
+body:not([class*="theme-"]) .sidebar,
+body.theme-general .sidebar {
+    background: var(--general-nav);
+    border-right: 1px solid var(--general-border);
+}
+
+body:not([class*="theme-"]) .tool-tab,
+body.theme-general .tool-tab {
+    color: var(--general-text);
+}
+
+body:not([class*="theme-"]) .tool-tab:hover,
+body.theme-general .tool-tab:hover {
+    background: var(--general-hover);
+}
+
+body:not([class*="theme-"]) .tool-tab.active,
+body.theme-general .tool-tab.active {
+    background: var(--general-hover);
+    color: var(--general-primary);
+    border-right: 2px solid var(--general-primary);
+}
+
+/* General Theme - Dark Mode */
+body.dark-mode:not([class*="theme-"]),
+body.dark-mode.theme-general {
+    --primary-color: var(--general-dark-primary);
+    --secondary-color: var(--general-dark-secondary);
+    --accent-color: var(--general-dark-accent);
+    --background-color: var(--general-dark-background);
+    --text-color: var(--general-dark-text);
+}
+
+body.dark-mode:not([class*="theme-"]) .top-nav,
+body.dark-mode.theme-general .top-nav {
+    background: var(--general-dark-nav);
+    color: var(--general-dark-text);
+    border-bottom: 1px solid var(--general-dark-border);
+}
+
+body.dark-mode:not([class*="theme-"]) .workspace-name,
+body.dark-mode.theme-general .workspace-name {
+    color: var(--general-dark-accent);
+}
+
+body.dark-mode:not([class*="theme-"]) .tool-panel,
+body.dark-mode.theme-general .tool-panel {
+    background: var(--general-dark-card);
+    border: 1px solid var(--general-dark-border);
+}
+
+body.dark-mode:not([class*="theme-"]) .sidebar,
+body.dark-mode.theme-general .sidebar {
+    background: var(--general-dark-nav);
+    border-right: 1px solid var(--general-dark-border);
+}
+
+body.dark-mode:not([class*="theme-"]) .tool-tab,
+body.dark-mode.theme-general .tool-tab {
+    color: var(--general-dark-text);
+}
+
+body.dark-mode:not([class*="theme-"]) .tool-tab:hover,
+body.dark-mode.theme-general .tool-tab:hover {
+    background: var(--general-dark-hover);
+}
+
+body.dark-mode:not([class*="theme-"]) .tool-tab.active,
+body.dark-mode.theme-general .tool-tab.active {
+    background: var(--general-dark-hover);
+    color: var(--general-dark-accent);
+    border-right: 2px solid var(--general-dark-accent);
+}
+
+body.dark-mode:not([class*="theme-"]) .submit-btn,
+body.dark-mode.theme-general .submit-btn {
+    background: var(--general-dark-primary);
+    color: var(--general-dark-text);
+}
+
+body.dark-mode:not([class*="theme-"]) .submit-btn:hover:not(:disabled),
+body.dark-mode.theme-general .submit-btn:hover:not(:disabled) {
+    background: var(--general-dark-accent);
+}
+
+input[type="text"],
+input[type="file"],
+textarea {
+    background: #ffffff;
+    border: 1px solid var(--general-border);
+    border-radius: 6px;
+    color: var(--general-text);
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus,
+textarea:focus {
+    border-color: var(--general-primary);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Theme-specific styles */
+body.theme-bakery {
+    --primary-color: var(--bakery-primary);
+    --secondary-color: var(--bakery-secondary);
+    --accent-color: var(--bakery-accent);
+    --background-color: var(--bakery-background);
+    --text-color: var(--bakery-text);
+    font-family: 'Quicksand', sans-serif;
+}
+
+body.theme-tech {
+    --primary-color: var(--tech-primary);
+    --secondary-color: var(--tech-secondary);
+    --accent-color: var(--tech-accent);
+    --background-color: var(--tech-background);
+    --text-color: var(--tech-text);
+    font-family: 'Space Mono', monospace;
+}
+
+body.theme-fashion {
+    --primary-color: var(--fashion-primary);
+    --secondary-color: var(--fashion-secondary);
+    --accent-color: var(--fashion-accent);
+    --background-color: var(--fashion-background);
+    --text-color: var(--fashion-text);
+    font-family: 'Playfair Display', serif;
+}
+
+body.theme-wellness {
+    --primary-color: var(--wellness-primary);
+    --secondary-color: var(--wellness-secondary);
+    --accent-color: var(--wellness-accent);
+    --background-color: var(--wellness-background);
+    --text-color: var(--wellness-text);
+    font-family: 'Lato', sans-serif;
+}
+
+body.theme-minimalist {
+    --primary-color: var(--minimalist-primary);
+    --secondary-color: var(--minimalist-secondary);
+    --accent-color: var(--minimalist-accent);
+    --background-color: var(--minimalist-background);
+    --text-color: var(--minimalist-text);
+    font-family: 'Inter', sans-serif;
+}
+
+body.theme-creative {
+    --primary-color: var(--creative-primary);
+    --secondary-color: var(--creative-secondary);
+    --accent-color: var(--creative-accent);
+    --background-color: var(--creative-background);
+    --text-color: var(--creative-text);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Theme-specific component styles */
+.theme-bakery .top-nav {
+    background: var(--bakery-nav);
+    color: #ffffff;
+}
+
+.theme-bakery .workspace-name {
+    color: var(--bakery-accent);
+    font-weight: 600;
+}
+
+.theme-tech .top-nav {
+    background: var(--tech-nav);
+    color: var(--tech-text);
+    border-bottom: 1px solid var(--tech-border);
+}
+
+.theme-tech .workspace-name {
+    color: var(--tech-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.theme-tech .tool-panel {
+    background: var(--tech-card);
+    border: 1px solid var(--tech-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-tech .submit-btn {
+    background: var(--tech-primary);
+    color: #ffffff;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.theme-tech .submit-btn:hover:not(:disabled) {
+    background: var(--tech-hover);
+    transform: translateY(-2px);
+}
+
+.theme-tech .sidebar {
+    background: var(--tech-nav);
+    border-right: 1px solid var(--tech-border);
+}
+
+.theme-tech input[type="text"],
+.theme-tech input[type="file"],
+.theme-tech textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--tech-border);
+    color: var(--tech-text);
+}
+
+.theme-tech input[type="text"]:focus,
+.theme-tech input[type="file"]:focus,
+.theme-tech textarea:focus {
+    border-color: var(--tech-accent);
+    box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+}
+
+.theme-fashion .top-nav {
+    background: var(--fashion-nav);
+    color: #ffffff;
+}
+
+.theme-fashion .workspace-name {
+    color: var(--fashion-accent);
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.theme-wellness .top-nav {
+    background: var(--wellness-nav);
+    color: #ffffff;
+}
+
+.theme-wellness .workspace-name {
+    color: var(--wellness-accent);
+    font-weight: 500;
+}
+
+.theme-minimalist .top-nav {
+    background: var(--minimalist-nav);
+    color: var(--minimalist-nav-text);
+    border-bottom: 1px solid var(--minimalist-border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.theme-minimalist .workspace-name {
+    color: var(--minimalist-nav-text);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.theme-minimalist .new-chat-btn {
+    background: var(--minimalist-button);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+}
+
+.theme-minimalist .new-chat-btn:hover {
+    background: var(--minimalist-button-hover);
+    transform: translateY(-1px);
+}
+
+.theme-minimalist .profile-button {
+    color: var(--minimalist-nav-text);
+    opacity: 0.9;
+    transition: all 0.2s ease;
+}
+
+.theme-minimalist .profile-button:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.theme-minimalist .tool-panel {
+    background: var(--minimalist-card);
+    border: 1px solid var(--minimalist-border);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.theme-minimalist .submit-btn {
+    background: var(--minimalist-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.theme-minimalist .submit-btn:hover:not(:disabled) {
+    background: var(--minimalist-hover);
+}
+
+.theme-minimalist .sidebar {
+    background: var(--minimalist-sidebar);
+    color: var(--minimalist-nav-text);
+    border-right: 1px solid var(--minimalist-border);
+}
+
+.theme-minimalist input[type="text"],
+.theme-minimalist input[type="file"],
+.theme-minimalist textarea {
+    border: 1px solid var(--minimalist-border);
+    border-radius: 6px;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.theme-minimalist input[type="text"]:focus,
+.theme-minimalist input[type="file"]:focus,
+.theme-minimalist textarea:focus {
+    border-color: var(--minimalist-primary);
+    box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.1);
+}
+
+.theme-minimalist .tool-icon {
+    color: var(--minimalist-accent);
+}
+
+.theme-minimalist .tool-tab {
+    color: var(--minimalist-nav-text);
+    transition: all 0.2s ease;
+}
+
+.theme-minimalist .tool-tab:hover {
+    background: var(--minimalist-sidebar-hover);
+}
+
+.theme-minimalist .tool-tab.active {
+    background: var(--minimalist-sidebar-hover);
+    color: var(--minimalist-primary);
+    font-weight: 500;
+    border-right: 2px solid var(--minimalist-primary);
+}
+
+.theme-creative .top-nav {
+    background: var(--creative-nav);
+    color: #ffffff;
+    border-bottom: 3px solid var(--creative-accent);
+}
+
+.theme-creative .workspace-name {
+    background: linear-gradient(45deg, var(--creative-primary), var(--creative-accent));
+    -webkit-background-clip: text;
+    background-clip: text; /* To support non-webkit browsers like Firefox */
+    color: transparent; /* Make sure the text color is transparent */
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+
+/* Additional navbar styles for all themes */
+.top-nav {
+    padding: 1rem 2rem;
+}
+
+.workspace-name {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.workspace-name:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Theme-specific button styles */
+.theme-bakery .submit-btn {
+    background: var(--bakery-primary);
+    border-radius: 25px;
+}
+
+.theme-fashion .submit-btn {
+    background: var(--fashion-primary);
+    border-radius: 0;
+    letter-spacing: 2px;
+}
+
+.theme-wellness .submit-btn {
+    background: var(--wellness-primary);
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.theme-creative .submit-btn {
+    background: linear-gradient(45deg, var(--creative-primary), var(--creative-secondary));
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional Creative theme specific styles */
+.theme-creative .tool-panel {
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 51, 102, 0.1);
+    box-shadow: 0 8px 32px rgba(153, 51, 255, 0.1);
+}
+
+.theme-creative .sidebar {
+    background: linear-gradient(180deg, var(--creative-primary), var(--creative-secondary));
+}
+
+.theme-creative .tool-icon {
+    background: linear-gradient(45deg, var(--creative-primary), var(--creative-secondary));
+    -webkit-background-clip: text;
+    background-clip: text; /* For broader compatibility with non-webkit browsers */
+    -webkit-text-fill-color: transparent; /* Webkit-specific to make the text transparent */
+    color: transparent; /* Ensures that the text is transparent and the gradient is visible */
+}
+
+
+.theme-creative input[type="text"],
+.theme-creative input[type="file"],
+.theme-creative textarea {
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.theme-creative input[type="text"]:focus,
+.theme-creative input[type="file"]:focus,
+.theme-creative textarea:focus {
+    border-color: var(--creative-accent);
+    box-shadow: 0 0 0 3px rgba(51, 204, 255, 0.2);
+}
+
+.theme-creative .caption-entry {
+    border-left: 4px solid var(--creative-primary);
+    background: linear-gradient(45deg, rgba(255,51,102,0.05), rgba(153,51,255,0.05));
+}

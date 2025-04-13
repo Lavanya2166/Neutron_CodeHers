@@ -1,0 +1,101 @@
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --accent-color: #ffc107;
+    --background-color: #ffffff;
+    --text-color: #212529;
+
+    --bakery-primary: #ff6f61;
+    --bakery-secondary: #f7cac9;
+    --bakery-accent: #92a8d1;
+
+    --tech-primary: #007bff;
+    --tech-secondary: #6c757d;
+    --tech-accent: #17a2b8;
+
+    --clothing-primary: #8e44ad;
+    --clothing-secondary: #d2b4de;
+    --clothing-accent: #f39c12;
+
+    --handmade-primary: #ff9f1c;
+    --handmade-secondary: #ffbf69;
+    --handmade-accent: #cbf3f0;
+}
+
+body,
+body.theme-general {
+    --primary-color: var(--primary-color);
+    --secondary-color: var(--secondary-color);
+    --accent-color: var(--accent-color);
+    --background-color: #ffffff;
+    --text-color: #212529;
+}
+
+body.theme-bakery {
+    --primary-color: var(--bakery-primary);
+    --secondary-color: var(--bakery-secondary);
+    --accent-color: var(--bakery-accent);
+}
+
+body.theme-tech {
+    --primary-color: var(--tech-primary);
+    --secondary-color: var(--tech-secondary);
+    --accent-color: var(--tech-accent);
+}
+
+body.theme-clothing {
+    --primary-color: var(--clothing-primary);
+    --secondary-color: var(--clothing-secondary);
+    --accent-color: var(--clothing-accent);
+}
+
+body.theme-handmade {
+    --primary-color: var(--handmade-primary);
+    --secondary-color: var(--handmade-secondary);
+    --accent-color: var(--handmade-accent);
+}
+
+/* Dark mode */
+body.dark-mode {
+    --background-color: #121212;
+    --text-color: #f5f5f5;
+}
+
+/* Dark mode for each theme */
+body.dark-mode.theme-general,
+body.dark-mode:not([class*="theme-"]) {
+    --primary-color: #90caf9;
+    --secondary-color: #eeeeee;
+    --accent-color: #ffcc80;
+}
+
+body.dark-mode.theme-bakery {
+    --primary-color: #ff9e95;
+    --secondary-color: #f5d0cd;
+    --accent-color: #b0c4e7;
+}
+
+body.dark-mode.theme-tech {
+    --primary-color: #66b2ff;
+    --secondary-color: #a9b3bc;
+    --accent-color: #4dd0e1;
+}
+
+body.dark-mode.theme-clothing {
+    --primary-color: #bb8fce;
+    --secondary-color: #e8daef;
+    --accent-color: #f7dc6f;
+}
+
+body.dark-mode.theme-handmade {
+    --primary-color: #ffb347;
+    --secondary-color: #ffe0ac;
+    --accent-color: #d0f0ef;
+}
+
+/* Global styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+}

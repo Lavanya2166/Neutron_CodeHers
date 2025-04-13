@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../firebase';  // Go up two levels to src
-import { useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase';
+import { useNavigate, Link } from 'react-router-dom';
+import './Signup.css';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
-    e.preventDefault(); // Prevent form from reloading the page
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match.');
+      return;
+    }
+
     setLoading(true);
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      // Redirect to the add collaborators page after successful signup
       navigate('/add-collaborators');
     } catch (err) {
       console.error('Error signing up: ', err.message);
@@ -26,35 +33,38 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup-container">
+    <div className="auth-container">
+      <h1>Welcome to ABCD</h1>
       <h2>Sign Up</h2>
       <form onSubmit={handleSignup}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
         <button type="submit" disabled={loading}>
           {loading ? 'Signing up...' : 'Sign Up'}
         </button>
       </form>
+      <div className="bottom-link">
+        Already a member? <Link to="/login">Log in</Link>
+      </div>
     </div>
   );
 };

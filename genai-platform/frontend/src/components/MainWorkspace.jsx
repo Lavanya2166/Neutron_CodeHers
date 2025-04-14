@@ -1,19 +1,70 @@
+const GenerateCaptionComponent = ({ imageFile, captionDescription }) => {
+  const [generatedCaption, setGeneratedCaption] = useState('');
+
+  const handleGenerateCaptions = async () => {
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("theme", captionDescription);
+    formData.append("tone", "casual");
+
+    try {
+      const response = await axios.post('http://localhost:8000/genai-tools/genai-tools/image-caption', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (response.data.caption) {
+        setGeneratedCaption(response.data.caption);
+      }
+    } catch (error) {
+      console.error("Error generating caption:", error);
+    }
+  };
+
+  return (
+    <>
+      <Button
+        onClick={handleGenerateCaptions}
+        variant="contained"
+        fullWidth
+        sx={{
+          mt: 1.5,
+          bgcolor: '#10B981',
+          '&:hover': { bgcolor: '#059669' },
+          textTransform: 'none',
+          py: 1,
+          fontSize: '0.9rem'
+        }}
+        disabled={!imageFile}
+      >
+        Generate Caption
+      </Button>
+
+      {generatedCaption && (
+        <Card sx={{ mt: 2 }}>
+          <CardContent>
+            <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+              Generated Caption:
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {generatedCaption}
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
+};
+
+import axios from 'axios';
 import React, { useState } from 'react';
+import { Box, Card, CardContent, Typography, Button, TextField, Checkbox, FormControlLabel, IconButton } from '@mui/material';
+// import { alpha } from '@mui/system';
 import {
-  Box,
   Paper,
   Tabs,
   Tab,
-  TextField,
-  Button,
-  Card,
-  CardContent,
-  Typography,
   styled,
-  Checkbox,
-  FormControlLabel,
   Input,
-  IconButton,
   MenuItem,
   useTheme
 } from '@mui/material';
@@ -136,7 +187,29 @@ const MainWorkspace = () => {
       reader.readAsDataURL(file);
     }
   };
-
+  // const GenerateCaptionComponent = () =>{
+  //   const handleGenerateCaptions = async () => {
+  //     // Create FormData to send the image file, theme, and tone
+  //     const formData = new FormData();
+  //     formData.append("file", imageFile); // image file
+  //     formData.append("theme", captionDescription); // theme (description entered by user)
+  //     formData.append("tone", "casual"); // tone (you can modify this as per user input)
+  
+  //     try {
+  //       // Send the POST request to the FastAPI backend
+  //       const response = await axios.post('http://localhost:8000/genai-tools/genai-tools/image-caption', formData, {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data', // Important to tell the server we are sending form data
+  //         },
+  //       });
+  //       if (response.data.caption) {
+  //         setGeneratedCaption(response.data.caption); // Update generated caption
+  //       }
+  //     } catch (error) {
+  //       console.error("Error generating caption:", error);
+  //     }
+  //   };
+  // }
   return (
     <WorkspaceContainer>
       <Paper 
@@ -529,6 +602,7 @@ const MainWorkspace = () => {
               </Card>
 
               {/* Generated Captions Section */}
+              
               <Card>
                 <CardContent sx={{ p: 1.5 }}>
                   <Box sx={{ 

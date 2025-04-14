@@ -1,11 +1,14 @@
 # backend/main.py
 
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile, Form
+from PIL import Image
+from io import BytesIO
+import os
+from dotenv import load_dotenv
+from backend.ml.image_caption_gen import VibeClassifier, GeminiCaptionGenerator  # Import your ML classes
 from fastapi.middleware.cors import CORSMiddleware
 from backend.routes import auth, genai_tools, chat, themes, voice, personal_brand
 from backend.routes import themes
-import os
-from dotenv import load_dotenv
 from backend.routes import summarizer
 from backend.routes import product_success_text_route
 from backend.routes import product_routes 
@@ -34,7 +37,7 @@ app.add_middleware(
 # app.include_router(personal_brand.router, prefix="/brand")
 # app.include_router(chat.router)
 app.include_router(genai_tools.router, prefix="/genai-tools")
-app.include_router(genai_tools.router, prefix="/genai-tools")
+# app.include_router(genai_tools.router, prefix="/genai-tools")
 app.include_router(summarizer.router, prefix="/genai-tools")  # Summarizer tools
 app.include_router(product_success_text_route.router, prefix="/genai-tools")  # Text predict
 # app.include_router(product_routes.router, prefix="/product")
@@ -43,3 +46,26 @@ app.include_router(update_model.router, prefix="/product")
 @app.get("/")
 def root():
     return {"message": "Welcome to GenAI platform 🚀"}
+
+@app.post("/genai-tools/genai-tools/image-caption")
+async def generate_caption(
+    file: UploadFile = File(...),  # File parameter for image
+    theme: str = Form(...),        # Theme parameter from the form
+    tone: str = Form(...)          # Tone parameter from the form
+):
+    try:
+        # Read the image data from the uploaded file
+        image_data = await file.read()
+        image = Image.open(BytesIO(image_data))  # Open the image using PIL
+
+        # Get the vibe and object classification for the image
+        vibe, vibe_confidence = vibe_classifier.classify(image, mode="vibe")
+        obj, obj_confidence = vibe_classifier.classify(image, mode="object")
+
+        # Generate the caption using the vibe, object, theme, and tone
+        caption = caption_generator.generate_caption(vibe, obj, theme, tone)
+
+        return {"caption": caption}  # Return the generated caption
+
+    except Exception as e:
+        return {"error": str(e)}  # Handle errors gracefully
